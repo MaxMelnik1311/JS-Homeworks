@@ -1,0 +1,11 @@
+    "files.autoSave": "onWindowChange",
+    "prettier.eslintIntegration": true,
+    "eslint.enable": true,
+    "eslint.autoFixOnSave" : true,
+    "eslint.validate":[
+        "javascript"
+    ],
+    "files.eol": "\n",
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
