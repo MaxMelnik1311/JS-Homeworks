@@ -160,3 +160,11 @@ const users = [
 
 // console.log(uniqueSkills);
 // // ============================================ additional task 1 ===============================================
+
+
+// // ============================================ additional task 2 ===============================================
+const sortByNumberofFriends = (a, b) => a.friends.length - b.friends.length;
+const getNamesSortedByFriendsCount = users => users.sort(sortByNumberofFriends).map(user => user.name);
+
+console.log(getNamesSortedByFriendsCount(users));
+// // ============================================ additional task 2 ===============================================
