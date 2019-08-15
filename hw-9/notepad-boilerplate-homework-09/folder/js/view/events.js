@@ -30,21 +30,31 @@ const handleNoteEditorSubmit = event => {
 
 const handleFilterChange = event => {
     const filteredNotes = notepad.filterNotesByQuery(event.target.value);
-    renderNoteList(listRef, filteredNotes);
-
     console.log(filteredNotes);
+
+    renderNoteList(listRef, filteredNotes);
 }
 
-const removeListItem = event => {
+const handleListClick = ({target}) => {
     
-    if (event.target.textContent === ICON_TYPES.DELETE) {
-        const parentListItem = event.target.closest('.note-list__item');
+    if(target.nodeName !== 'BUTTON') return;
+
+    const action = target.dataset.action;
+
+    switch(action) {
+        case NOTE_ACTIONS.DELETE: 
+        const parentListItem = target.closest('.note-list__item');
         const id = parentListItem.dataset.id;
         notepad.deleteNote(id);
         parentListItem.remove();
+        break;
+
+        default:
+            console.log('its not a delete-button!');
     }
+    
 }
 
 refs.addNewNote.addEventListener('submit', handleNoteEditorSubmit);
 refs.noteFilter.addEventListener('input', handleFilterChange);
-refs.list.addEventListener('click', removeListItem);
+refs.list.addEventListener('click', handleListClick);
