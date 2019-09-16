@@ -11,6 +11,9 @@ const init = local ? local : initialNotes;
 const notepad = new Notepad(init);
 notepad.saveLocale();
 
+
+
+
 const notyf = new Notyf();
 
 const refs = {
