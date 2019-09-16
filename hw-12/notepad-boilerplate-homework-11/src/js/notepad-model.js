@@ -6,11 +6,8 @@ export default class Notepad {
   }
 
   saveLocale() {
-    try {
-      localStorage.setItem('notes', JSON.stringify(this._notes));
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(localStorage.getItem('notes'));
+    return localStorage.setItem('notes', JSON.stringify(this._notes));
   }
   
   get notes() {
@@ -30,10 +27,10 @@ export default class Notepad {
           priority: PRIORITY_TYPES.LOW,
         }
         this._notes.push(newNote);
-        this.saveLocale();
+        // this.saveLocale();
         // return newNote;
         resolve(newNote);
-      }, 500);
+      }, 1000);
     })
   }
 
@@ -41,9 +38,9 @@ export default class Notepad {
     return new Promise ((resolve, reject) => {
       setTimeout(() => {
         this._notes = this._notes.filter(e => e.id !== id);
-        this.saveLocale();
+        // this.saveLocale();
         resolve(this._notes);
-      }, 500);
+      }, 1000);
     });
   }
   updateNoteContent(id, updatedContent) {

@@ -9,6 +9,7 @@ import {PRIORITY_TYPES, NOTIFICATION_MESSAGES, NOTE_ACTIONS} from './utils/const
 const local = JSON.parse(localStorage.getItem('notes'));
 const init = local ? local : initialNotes;
 const notepad = new Notepad(init);
+notepad.saveLocale();
 
 const notyf = new Notyf();
 
@@ -43,9 +44,10 @@ const handleNoteEditorSubmit = event => {
         return notyf.error('Заполните все поля!')
     }
 
-    const savedNote = notepad.saveNote(inputValue, textareaValue);
+    notepad.saveNote(inputValue, textareaValue)
+    .then( data => newListItem(refs.noteList, data));
+    notepad.saveLocale();
 
-    newListItem(refs.noteList, savedNote);
     Micromodal.close('modal-1');
 
     event.currentTarget.reset();
@@ -60,9 +62,9 @@ const removeListItem = event => {
     if (event.target.textContent == 'delete') {
         const parentListItem = event.target.closest('.note-list__item');
         const id = parentListItem.dataset.id;
-        notepad.deleteNote(id);
-        parentListItem.remove();
-        notyf.error('Заметка удалена!');
+        notepad.deleteNote(id)
+        .then(() => parentListItem.remove())
+        .then(() => notyf.error('Заметка удалена!'));
     }
 }
 

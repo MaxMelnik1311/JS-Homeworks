@@ -4,7 +4,7 @@
   "description": "Vanilla JS Notepad app",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --env.mode development --env.port 8081",
+    "start": "webpack-dev-server --env.mode development --env.port 8080",
     "build": "webpack --env.mode production"
   },
   "author": "Alexander Repeta <alexander.repeta@gmail.com>",
