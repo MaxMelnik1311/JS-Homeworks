@@ -6,8 +6,21 @@ export default class Notepad {
   }
 
   saveLocale() {
-    console.log(localStorage.getItem('notes'));
-    return localStorage.setItem('notes', JSON.stringify(this._notes));
+    try {
+      localStorage.setItem('notes', JSON.stringify(this._notes));
+    }
+    catch (error) {
+      console.log('error in save');
+    }
+  }
+
+  removeLocale() {
+    try {
+      localStorage.removeItem();
+    }
+    catch (error) {
+      console.log('Error in remove');
+    }
   }
   
   get notes() {

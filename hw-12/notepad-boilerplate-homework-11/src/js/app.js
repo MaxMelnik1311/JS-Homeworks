@@ -9,9 +9,6 @@ import {PRIORITY_TYPES, NOTIFICATION_MESSAGES, NOTE_ACTIONS} from './utils/const
 const local = JSON.parse(localStorage.getItem('notes'));
 const init = local ? local : initialNotes;
 const notepad = new Notepad(init);
-notepad.saveLocale();
-
-
 
 
 const notyf = new Notyf();
@@ -27,7 +24,7 @@ const createNotesListMarkup = initialNotes => {
     return markup;
 }
 
-const markup = createNotesListMarkup(initialNotes);
+const markup = createNotesListMarkup(init);
 
 const newListItem = (noteList, savedNote) => {
     const addNewListItem = template(savedNote);
@@ -48,8 +45,8 @@ const handleNoteEditorSubmit = event => {
     }
 
     notepad.saveNote(inputValue, textareaValue)
-    .then( data => newListItem(refs.noteList, data));
-    notepad.saveLocale();
+    .then( data => newListItem(refs.noteList, data))
+    .then(() => notepad.saveLocale());
 
     Micromodal.close('modal-1');
 
@@ -67,6 +64,7 @@ const removeListItem = event => {
         const id = parentListItem.dataset.id;
         notepad.deleteNote(id)
         .then(() => parentListItem.remove())
+        .then(() => notepad.removeLocale())
         .then(() => notyf.error('Заметка удалена!'));
     }
 }
