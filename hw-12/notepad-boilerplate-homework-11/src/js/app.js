@@ -64,7 +64,7 @@ const removeListItem = event => {
         const id = parentListItem.dataset.id;
         notepad.deleteNote(id)
         .then(() => parentListItem.remove())
-        .then(() => notepad.removeLocale())
+        .then(() => notepad.saveLocale())
         .then(() => notyf.error('Заметка удалена!'));
     }
 }
