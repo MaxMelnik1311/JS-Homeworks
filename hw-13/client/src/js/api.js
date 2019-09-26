@@ -1,15 +1,12 @@
 const url = 'http://localhost:3000/notes';
 
-export const getPosts = () => {
-    return fetch(url).then(responce => {
-        if(responce.ok) {
-            return responce.json();
-        }
-        throw new Error('Error while fetching' + responce.statusText);
-    });
-};
+function getNotes() {
+    return fetch(url)
+    .then(response => response.json())
+    .catch(console.warn())
+}
 
-export const savePost = (post) => {
+function savePost(post) {
     const opts = {
         method: 'POST',
         headers: {
@@ -18,23 +15,19 @@ export const savePost = (post) => {
         body: JSON.stringify(post),
     }
 
-    return fetch(url, opts).then(responce => {
-        if(responce.ok) {
-            return responce.json();
-        }
-        throw new Error('Error while fetching' + responce.statusText);
-    });
+    return fetch(url, opts)
+    .then(response => response.json())
+    .then(console.log)
+    .catch(console.warn)
 }
 
-export const deletePost = (id) => {
+function deletePost(id) {
     const opts = {
         method: 'DELETE',
     }
 
-    return fetch(`${url}/${id}`, opts).then(responce => {
-        if(responce.ok) {
-            return responce.json();
-        }
-        throw new Error('Error while fetching' + responce.statusText);
-    });
+    return fetch(`${url}/${id}`, opts)
+    .then(response => response.json())
+    .then(console.log)
+    .catch(console.warn)
 }

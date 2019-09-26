@@ -2,36 +2,33 @@ import Micromodal from 'micromodal';
 import {Notyf} from 'notyf';
 import 'notyf/notyf.min.css';
 import template from './template.hbs';
-import initialNotes from '../assets/notes.json';
 import Notepad from './notepad-model';
 import {PRIORITY_TYPES, NOTIFICATION_MESSAGES, NOTE_ACTIONS} from './utils/constants';
-
-const local = JSON.parse(localStorage.getItem('notes'));
-const init = local ? local : initialNotes;
-const notepad = new Notepad(init);
-
-
-const notyf = new Notyf();
-
+// import initialNotes from '../assets/notes.json';
 const refs = {
     noteList: document.querySelector('.note-list'),
     addNewNote: document.querySelector('.note-editor'),
     openEditorModalBtn: document.querySelector('button[data-action="open-editor"]'),
 }
 
-const createNotesListMarkup = initialNotes => {
-    const markup = initialNotes.map(note => template(note)).join('');
+// const init = local ? local : initialNotes;
+
+const notepad = new Notepad();
+const notyf = new Notyf();
+
+const getMarkup = () => {
+    notepad.get().then(notes => {
+    const markup = notes.map(note => template(note)).join('');
     return markup;
+})
 }
 
-const markup = createNotesListMarkup(init);
+// const createNotesListMarkup = init => {
+//     const markup = init.map(note => template(note)).join('');
+//     return markup;
+// }
 
-const newListItem = (noteList, savedNote) => {
-    const addNewListItem = template(savedNote);
-    const markupUpdate = noteList.insertAdjacentHTML('beforeend', addNewListItem);
-    notyf.success('Новая заметка успешно добавлена!');
-    return markupUpdate;
-}
+// const markup = createNotesListMarkup(init);
 
 const handleNoteEditorSubmit = event => {
     event.preventDefault();
@@ -42,6 +39,13 @@ const handleNoteEditorSubmit = event => {
 
     if (textareaValue === '' || inputValue === '') {
         return notyf.error('Заполните все поля!')
+    }
+
+    const newListItem = (noteList, savedNote) => {
+    const addNewListItem = template(savedNote);
+    const markupUpdate = noteList.insertAdjacentHTML('beforeend', addNewListItem);
+    notyf.success('Новая заметка успешно добавлена!');
+    return markupUpdate;
     }
 
     notepad.saveNote({title: inputValue, body: textareaValue})
@@ -70,7 +74,7 @@ const removeListItem = event => {
 }
 
 
-refs.noteList.insertAdjacentHTML('beforeend', markup);
+refs.noteList.insertAdjacentHTML('beforeend', getMarkup);
 refs.addNewNote.addEventListener('submit', handleNoteEditorSubmit);
 refs.openEditorModalBtn.addEventListener('click', handleOpenEditor);
 refs.noteList.addEventListener('click', removeListItem);
