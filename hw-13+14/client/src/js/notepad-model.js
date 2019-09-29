@@ -3,7 +3,7 @@ import * as api from './api';
 
 
 export default class Notepad {
-  constructor(notes) {
+  constructor(notes = []) {
     this._notes = notes;
   }
 
@@ -22,7 +22,7 @@ export default class Notepad {
       priority: PRIORITY_TYPES.LOW,
     };
 
-    return api.savePost(note).then(newNote => {
+    return api.savePost(newNote).then(newNote => {
       this._notes.push(newNote);
       return newNote;
     }); 

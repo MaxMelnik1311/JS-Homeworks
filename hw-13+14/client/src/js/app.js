@@ -4,31 +4,26 @@ import 'notyf/notyf.min.css';
 import template from './template.hbs';
 import Notepad from './notepad-model';
 import {PRIORITY_TYPES, NOTIFICATION_MESSAGES, NOTE_ACTIONS} from './utils/constants';
-// import initialNotes from '../assets/notes.json';
+
 const refs = {
     noteList: document.querySelector('.note-list'),
     addNewNote: document.querySelector('.note-editor'),
     openEditorModalBtn: document.querySelector('button[data-action="open-editor"]'),
 }
 
-// const init = local ? local : initialNotes;
+
 
 const notepad = new Notepad();
 const notyf = new Notyf();
 
 const getMarkup = () => {
-    notepad.get().then(notes => {
-    const markup = notes.map(note => template(note)).join('');
-    return markup;
-})
-}
+    notepad
+      .get()
+      .then(notes => notes.map(note => template(note)).join(''))
+      .then(markup => refs.noteList.insertAdjacentHTML('beforeend', markup));
+};
 
-// const createNotesListMarkup = init => {
-//     const markup = init.map(note => template(note)).join('');
-//     return markup;
-// }
-
-// const markup = createNotesListMarkup(init);
+getMarkup();
 
 const handleNoteEditorSubmit = event => {
     event.preventDefault();
@@ -48,8 +43,8 @@ const handleNoteEditorSubmit = event => {
     return markupUpdate;
     }
 
-    notepad.saveNote({title: inputValue, body: textareaValue})
-    .then( data => newListItem(refs.noteList, data))
+    notepad.saveNote(inputValue, textareaValue)
+    .then(data => newListItem(refs.noteList, data))
     .catch(error => notyf.error('Ошибка при добавлении заметки'));
 
     Micromodal.close('modal-1');
@@ -73,8 +68,6 @@ const removeListItem = event => {
     }
 }
 
-
-refs.noteList.insertAdjacentHTML('beforeend', getMarkup);
 refs.addNewNote.addEventListener('submit', handleNoteEditorSubmit);
 refs.openEditorModalBtn.addEventListener('click', handleOpenEditor);
 refs.noteList.addEventListener('click', removeListItem);
