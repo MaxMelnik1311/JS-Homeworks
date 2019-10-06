@@ -1,19 +1,14 @@
 const PRIORITY_TYPES = require('./constants');
-const getNotes = require('./api');
-const savePost = require('./api');
-const deletePost = require('./api');
+const { getNotes, savePost, deletePost }  = require('./api');
+
 
 class Notepad {
   constructor(notes = []) {
     this._notes = notes;
   }
 
-  get() {
-    return getNotes()
-      .then(notes => {
-      this._notes = notes;
-      return this._notes;
-    });
+  get notes() {
+    return this._notes;
   }
 
   saveNote(titleText, areaText) {
