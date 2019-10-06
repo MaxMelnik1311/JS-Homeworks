@@ -6,13 +6,14 @@ const notepad = new Notepad();
 //  =================== save =========================  //
 describe('save note', () => {
   // beforeAll(() => {
-  //   console.log('test save note start');
+  //   console.log('notepad._notes', notepad._notes );
+
   // });
 
   test('save note', () => {
     expect(
       notepad.saveNote('newNoteTitle', 'newNoteBody')
-      .then(() => notepad._notes[4].title).resolves.toBe("newNoteTitle"));
+      .then(() => notepad._notes[4].title)).resolves.toBe("newNoteTitle");
   });
 
   // afterAll(() => {
@@ -33,7 +34,7 @@ describe('delete note', () => {
     test('delete note', () => {
       expect(
         notepad.deleteNote('id-4')
-        .then(() => notepad._notes[4].body).resolves.toBe('newNoteBody'));
+        .then(() => notepad._notes[4].body)).resolves.toBe('newNoteBody');
     });
     // afterAll(() => { });
   });

@@ -2,7 +2,7 @@ const axios = require('axios');
 require('core-js/stable');
 require('regenerator-runtime/runtime');
 
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'http://localhost:3030';
 
 const getNotes = async () => {
     try {
